@@ -1,10 +1,11 @@
-def main():
-    print("Hello from graph-agents!")
-    from core.config import EnvSettings
+from utils.llm_manager import LLMManager
 
-    settings = EnvSettings()
-    print(settings.OPENAI_API_KEY)
-    print(settings.MODEL)
+def main():
+    llm_manager = LLMManager()
+    llm = llm_manager.load_model()
+    response = llm.invoke(input="HI how are you")
+    result = response.content
+    print(result)
 
 
 if __name__ == "__main__":
