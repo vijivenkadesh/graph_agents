@@ -8,7 +8,7 @@ from functools import lru_cache
 
 
 class EnvSettings(BaseSettings):
-    print("loading the classs")
+
     OPENAI_API_KEY: Optional[SecretStr] = Field(description="This is the API key for OpenAI",
                                                 strict=True,
                                                 default=None)
