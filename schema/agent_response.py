@@ -4,5 +4,7 @@ from typing import TypedDict
 
 
 class AgentResponse(TypedDict):
-    classification: str
+    is_hate_speech: bool
+    category: str
     confidence: int
+    reson: str

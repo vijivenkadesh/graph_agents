@@ -2,8 +2,9 @@ from utils.llm_manager import LLMManager
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from typing import List, Any, Annotated
 from tools.share_price import get_share_price
-from agents.hate_speech_agent import sample_agent
+from agents.hate_speech_agent import hate_speech_agent
 from model.message_state import MessageState
+from prompts.hate_speech_agent import input
 
 def main():
     # llm_manager = LLMManager()
@@ -23,9 +24,8 @@ def main():
     # result = llm_with_tools.invoke(input=messages)
     # final_result = result.content
     # print(final_result)
-    input = MessageState(message="I hate you")
 
-    result = sample_agent(state=input)
+    result = hate_speech_agent(state=input)
     print(result)
 
 if __name__ == "__main__":
