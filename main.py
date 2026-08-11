@@ -4,8 +4,11 @@ from typing import List, Any, Annotated
 from tools.share_price import get_share_price
 from agents.hate_speech_agent import hate_speech_agent
 from agents.profanity_agent import profanity_agent
+from agents.manager_agent import manager_agent
+
 from model.message_state import MessageState
 from prompts.hate_speech_agent import input
+from graphs.agent_graph import graph
 
 def main():
     # llm_manager = LLMManager()
@@ -26,12 +29,17 @@ def main():
     # final_result = result.content
     # print(final_result)
 
-    result1 = hate_speech_agent(state=input)
-    result2 = profanity_agent(state=input)
+    # result1 = hate_speech_agent(state=input)
+    # result2 = profanity_agent(state=input)
+    # result3 = manager_agent(state=result2)
     
-    print(result1)
-    print("*"*20)
-    print(result2)
+    # print(result1)
+    # print("*"*20)
+    # print(result2)
+    # print("*"*100)
+    # print(result3)
+    result = graph.invoke(input=input)
+    print(result)
 
 if __name__ == "__main__":
     main()

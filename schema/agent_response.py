@@ -3,8 +3,23 @@ from typing import TypedDict
 
 
 
-class AgentResponse(TypedDict):
+class HateAgentResponse(TypedDict):
     is_hate_speech: bool
     category: str
     confidence: int
     reson: str
+
+
+class ProfanityAgentResponse(TypedDict):
+    is_profanity: bool
+    category: str
+    confidence: int
+    reson: str
+
+
+
+class FinalDecisionResponse(TypedDict):
+    is_violation: bool
+    category: str
+    confidence: int
+    reason: str
