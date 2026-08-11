@@ -3,6 +3,7 @@ from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from typing import List, Any, Annotated
 from tools.share_price import get_share_price
 from agents.hate_speech_agent import hate_speech_agent
+from agents.profanity_agent import profanity_agent
 from model.message_state import MessageState
 from prompts.hate_speech_agent import input
 
@@ -25,8 +26,12 @@ def main():
     # final_result = result.content
     # print(final_result)
 
-    result = hate_speech_agent(state=input)
-    print(result)
+    result1 = hate_speech_agent(state=input)
+    result2 = profanity_agent(state=input)
+    
+    print(result1)
+    print("*"*20)
+    print(result2)
 
 if __name__ == "__main__":
     main()
