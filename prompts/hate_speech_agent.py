@@ -1,15 +1,15 @@
-from langchain.messages import SystemMessage, HumanMessage
 from model.message_state import MessageState
+from langchain.messages import SystemMessage
 
-input: MessageState = {"message":"That entire ethnic group is worthless.",
-                           "hate_speech_agent_response": {},
-                           "profanity_agent_response": {}}
+# input: MessageState = {"message":"That entire ethnic group is worthless.",
+#                            "hate_speech_agent_response": {},
+#                            "profanity_agent_response": {}}
 
-message = input['message']
+# message = input['message']
 
-text = f""" You are a specialized Hate Speech Detection Agent.
+template = """ You are a specialized Hate Speech Detection Agent.
 
-Your ONLY responsibility is to determine whether the given user {message} contains hate speech.
+Your ONLY responsibility is to determine whether the given user message contains hate speech.
 
 ## What is Hate Speech?
 
@@ -79,7 +79,10 @@ Return ONLY a structured response matching this schema:
 Do not add any additional fields."""
 
 
-system_prompt = SystemMessage(content=text)
+system_prompt = SystemMessage(content=template)
 
-prompt = [("system", text),
-          ("human", message)]
+# prompt = [("system", template),
+#           ("human", message)]
+
+
+hate_speech_prompt_template = user_prompt = """Analyze the following message for hate speech:Message: {message}"""

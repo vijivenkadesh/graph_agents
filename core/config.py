@@ -19,6 +19,11 @@ class EnvSettings(BaseSettings):
 
     MODEL: str = ""
 
+    LANGSMITH_TRACING: str = "true"
+    LANGSMITH_ENDPOINT: str = ""
+    LANGSMITH_API_KEY: str = ""
+    LANGSMITH_PROJECT: str = ""
+
     model_config = SettingsConfigDict(env_file=".env",
                                       env_file_encoding="utf-8")
 

@@ -1,15 +1,15 @@
 from langchain.messages import SystemMessage, HumanMessage
 from model.message_state import MessageState
 
-input: MessageState = {"message":"That entire ethnic group is worthless.",
-                           "hate_speech_agent_response": {},
-                           "profanity_agent_response": {}}
+# input: MessageState = {"message":"That entire ethnic group is worthless.",
+#                            "hate_speech_agent_response": {},
+#                            "profanity_agent_response": {}}
 
-message = input['message']
+# message = input['message']
 
-text = f""" You are a specialized Profanity Detection Agent.
+template = """ You are a specialized Profanity Detection Agent.
 
-Your ONLY responsibility is to determine whether the given {message} contains profanity or vulgar language.
+Your ONLY responsibility is to determine whether the given message contains profanity or vulgar language.
 
 ## Detection Rules
 
@@ -59,7 +59,9 @@ Return only the structured output matching the provided AgentResponse schema.
 Do not add any additional fields."""
 
 
-system_prompt = SystemMessage(content=text)
+system_prompt = SystemMessage(content=template)
 
-prompt = [("system", text),
-          ("human", message)]
+# prompt = [("system", text),
+#           ("human", message)]
+
+profanity_prompt_template = user_prompt = """Analyze the following message for profanity:Message: {message}"""

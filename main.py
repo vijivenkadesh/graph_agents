@@ -7,8 +7,12 @@ from agents.profanity_agent import profanity_agent
 from agents.manager_agent import manager_agent
 
 from model.message_state import MessageState
-from prompts.hate_speech_agent import input
+# from prompts.hate_speech_agent import input
 from graphs.agent_graph import graph
+from core.config import get_settings
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def main():
     # llm_manager = LLMManager()
@@ -38,8 +42,12 @@ def main():
     # print(result2)
     # print("*"*100)
     # print(result3)
-    result = graph.invoke(input=input)
+    input: MessageState = {"hate_speech_agent_response": {},
+                           "profanity_agent_response": {},
+                           "final_decison": {}}
+    result = graph.invoke(input=input, message="That entire ethnic group is worthless.")
     print(result)
+
 
 if __name__ == "__main__":
     main()
