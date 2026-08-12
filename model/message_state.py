@@ -7,6 +7,7 @@ def merge_dict(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
 
 class MessageState(TypedDict):
     # message: Annotated[str, operator.concat]
+    message: str
     hate_speech_agent_response: Annotated[Dict[str, Any], merge_dict]  
     profanity_agent_response: Annotated[Dict[str, Any], merge_dict]
-    final_decison: Optional[FinalDecisionResponse]
+    final_decision: Annotated[Dict[str, Any], merge_dict]
