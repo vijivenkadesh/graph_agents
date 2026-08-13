@@ -4,21 +4,23 @@ from core.config import get_settings
 from schema.agent_response import ProfanityAgentResponse
 from prompts.profanity_prompts import system_prompt, profanity_prompt_template
 from langchain.messages import HumanMessage
-
+from tools.agent_tools import word_count_tool
 
 
 def profanity_agent(state: MessageState) -> dict:
     llm_manager = LLMManager()
     llm = llm_manager.load_model()
-    llm_with_structured_output = llm.with_structured_output(ProfanityAgentResponse)
     prompt = HumanMessage(content=profanity_prompt_template.format(message=state['message']))
     messages = [system_prompt, prompt]
+    llm_with_tools = llm.bind_tools(tools=[word_count_tool])
+    tool_response = llm_with_tools.invoke(input=messages)
+    llm_with_structured_output = llm.with_structured_output(ProfanityAgentResponse)
     # response = llm.invoke(input=message)
     response = llm_with_structured_output.invoke(messages)
     # result = response.content
     # state['profanity_agent_response'] = response
-    result = {'profanity_agent_response': response}
-    return result
+    # result = {'profanity_agent_response': response}
+    return {'profanity_agent_response': response}
 
 
 if __name__ == "__main__":

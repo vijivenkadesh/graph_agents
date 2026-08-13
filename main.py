@@ -1,7 +1,6 @@
 from utils.llm_manager import LLMManager
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 from typing import List, Any, Annotated
-from tools.share_price import get_share_price
 from agents.hate_speech_agent import hate_speech_agent
 from agents.profanity_agent import profanity_agent
 from agents.manager_agent import manager_agent

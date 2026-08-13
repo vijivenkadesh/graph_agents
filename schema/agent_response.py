@@ -7,14 +7,14 @@ class HateAgentResponse(TypedDict):
     is_hate_speech: bool
     category: str
     confidence: int
-    reson: str
+    reason: str
 
 
 class ProfanityAgentResponse(TypedDict):
     is_profanity: bool
     category: str
     confidence: int
-    reson: str
+    reason: str
 
 
 
