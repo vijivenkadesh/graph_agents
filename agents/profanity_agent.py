@@ -14,17 +14,19 @@ def profanity_agent(state: MessageState) -> dict:
     messages = [system_prompt, prompt]
     llm_with_tools = llm.bind_tools(tools=[word_count_tool])
     tool_response = llm_with_tools.invoke(input=messages)
+    # state['messages'] = tool_response
     llm_with_structured_output = llm.with_structured_output(ProfanityAgentResponse)
     # response = llm.invoke(input=message)
     response = llm_with_structured_output.invoke(messages)
     # result = response.content
     # state['profanity_agent_response'] = response
     # result = {'profanity_agent_response': response}
-    return {'profanity_agent_response': response}
+    return {'profanity_agent_response': response, "messages": tool_response}
 
 
 if __name__ == "__main__":
-    input: MessageState = { "message":"That entire ethnic group is worthless.",
+    input: MessageState = { "messages": "",
+                           "message":"That entire ethnic group is worthless.",
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}

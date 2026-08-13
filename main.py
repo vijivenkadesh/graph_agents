@@ -41,7 +41,8 @@ def main():
     # print(result2)
     # print("*"*100)
     # print(result3)
-    input: MessageState = { "message":"That entire ethnic group is worthless.",
+    input: MessageState = { "messages": "",
+                           "message":"That entire ethnic group is worthless.",
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}
