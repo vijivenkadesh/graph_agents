@@ -15,6 +15,7 @@ def hate_speech_agent(state: MessageState) -> dict:
     messages = [system_prompt, prompt]
     llm_with_tools = llm.bind_tools(tools=[word_count_tool])
     tool_response = llm_with_tools.invoke(input=messages)
+    # state['messages'] = tool_response
     llm_with_structured_output = llm.with_structured_output(HateAgentResponse)
 
     # response = llm.invoke(input=message)
@@ -22,12 +23,13 @@ def hate_speech_agent(state: MessageState) -> dict:
     # result = response.content
     # state['hate_speech_agent_response'] = response
     # result = {'hate_speech_agent_response': response}
-    return {'hate_speech_agent_response': response}
+    return {'hate_speech_agent_response': response, "messages": tool_response}
 
 
 
 if __name__ == "__main__":
-    input: MessageState = { "message":"That entire ethnic group is worthless.",
+    input: MessageState = { "messages": "",
+                           "message":"That entire ethnic group is worthless.",
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}
