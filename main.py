@@ -41,12 +41,13 @@ def main():
     # print(result2)
     # print("*"*100)
     # print(result3)
-    input: MessageState = { "messages": "",
-                           "message":"you are an idiot",
+    message = input("Please enter message to analyze: ")
+    input_state: MessageState = { "messages": "",
+                           "message":message,
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}
-    result = graph.invoke(input=input)
+    result = graph.invoke(input=input_state)
     print(result)
 
 
