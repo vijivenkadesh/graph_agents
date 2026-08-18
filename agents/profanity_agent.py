@@ -50,11 +50,12 @@ def profanity_agent(state: MessageState) -> dict:
 
 
 if __name__ == "__main__":
-    input: MessageState = { "profanity_messages": "",
-                           "message":"That entire ethnic group is worthless.",
+    message = input("Please enter message to analyze: ")
+    input_state: MessageState = { "hate_messages": [],
+                                 "profanity_messages": [],
+                           "message":message,
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}
-    result = profanity_agent_with_tools(state=input)
-    final_result = profanity_agent(state=result)
-    print(result)
+    final_result = profanity_agent(state=input_state)
+    print(final_result)

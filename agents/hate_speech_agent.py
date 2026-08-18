@@ -1,14 +1,19 @@
 from utils.llm_manager import LLMManager
 from model.message_state import MessageState
-from core.config import get_settings
 from schema.agent_response import HateAgentResponse
 from prompts.hate_speech_agent import system_prompt, hate_speech_prompt_template
 from langchain.messages import HumanMessage
 from tools.agent_tools import word_count_tool,  profanity_check_tool
+from typing import Dict
+import logging
+
+logging.getLogger(__name__)
 
 
-
-def hate_speech_agent_with_tools(state: MessageState) -> dict:
+def hate_speech_agent_with_tools(state: MessageState) -> Dict:
+    """
+    This is an agent with tools. Load the configured model and bind the tools and analize the message for hate speech.
+    """
     llm_manager = LLMManager()
     llm = llm_manager.load_model()
     llm_with_tools = llm.bind_tools(tools=[word_count_tool,  profanity_check_tool])
@@ -31,7 +36,7 @@ def hate_speech_agent_with_tools(state: MessageState) -> dict:
     return {"hate_messages": [tool_response]}
 
 
-def hate_speech_agent(state: MessageState) -> dict:
+def hate_speech_agent(state: MessageState) -> Dict:
     llm_manager = LLMManager()
     llm = llm_manager.load_model()
     messages = state["hate_messages"]
@@ -48,10 +53,12 @@ def hate_speech_agent(state: MessageState) -> dict:
 
 
 if __name__ == "__main__":
-    input: MessageState = { "hate_messages": "",
-                           "message":"That entire ethnic group is worthless.",
+    message = input("Please enter message to analyze: ")
+    input_state: MessageState = { "hate_messages": [],
+                                 "profanity_messages": [],
+                           "message":message,
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
                            "final_decision": {}}
-    result = hate_speech_agent(state=input)
+    result = hate_speech_agent(state=input_state)
     print(result)

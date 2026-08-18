@@ -4,14 +4,13 @@ from typing import List, Any, Annotated
 from agents.hate_speech_agent import hate_speech_agent
 from agents.profanity_agent import profanity_agent
 from agents.manager_agent import manager_agent
-
 from model.message_state import MessageState
-# from prompts.hate_speech_agent import input
 from graphs.agent_graph import graph
 from core.config import get_settings
 from dotenv import load_dotenv
 load_dotenv()
-
+from core.logging_config import setup_logging
+setup_logging(level="DEBUG")
 
 def main():
     # llm_manager = LLMManager()
