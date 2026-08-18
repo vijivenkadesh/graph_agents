@@ -19,16 +19,20 @@ builder.add_node(node="profanity_agent", action=profanity_agent)
 builder.add_node(node="profanity_agent_with_tools", action=profanity_agent_with_tools)
 builder.add_node(node="manager_agent", action=manager_agent)
 builder.add_node(node="db_save", action=save_moderation_result)
-builder.add_node(node="hate_tools", action=ToolNode(tools=[word_count_tool]))
-builder.add_node(node="profanity_tools", action=ToolNode(tools=[word_count_tool, profanity_check_tool]))
+builder.add_node(node="hate_tools", action=ToolNode(tools=[word_count_tool, profanity_check_tool], messages_key="hate_messages"))
+builder.add_node(node="profanity_tools", action=ToolNode(tools=[word_count_tool, profanity_check_tool], messages_key="profanity_messages"))
 
 # adding Start to agent connection edges
 
 builder.add_edge(start_key=START, end_key="hate_speech_agent_with_tools")
 builder.add_edge(start_key=START, end_key="profanity_agent_with_tools")
-builder.add_conditional_edges(source="hate_speech_agent_with_tools", path=tools_condition, path_map={"tools": "hate_tools", END: "hate_speech_agent"})
+builder.add_conditional_edges(source="hate_speech_agent_with_tools",
+                              path=lambda state: tools_condition(state=state, messages_key="hate_messages"),
+                              path_map={"tools": "hate_tools", END: "hate_speech_agent"})
 builder.add_edge(start_key="hate_tools", end_key="hate_speech_agent_with_tools")
-builder.add_conditional_edges(source="profanity_agent_with_tools", path=tools_condition, path_map={"tools": "profanity_tools", END: "profanity_agent"})
+builder.add_conditional_edges(source="profanity_agent_with_tools",
+                              path=lambda state: tools_condition(state=state, messages_key="profanity_messages"),
+                              path_map={"tools": "profanity_tools", END: "profanity_agent"})
 builder.add_edge(start_key="profanity_tools", end_key="profanity_agent_with_tools")
 
 builder.add_edge(start_key="hate_speech_agent", end_key="manager_agent")

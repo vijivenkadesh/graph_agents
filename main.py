@@ -42,7 +42,8 @@ def main():
     # print("*"*100)
     # print(result3)
     message = input("Please enter message to analyze: ")
-    input_state: MessageState = { "messages": "",
+    input_state: MessageState = { "hate_messages": [],
+                                 "profanity_messages": [],
                            "message":message,
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
