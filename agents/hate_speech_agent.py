@@ -8,13 +8,33 @@ from tools.agent_tools import word_count_tool
 
 
 
+def hate_speech_agent_with_tools(state: MessageState) -> dict:
+    llm_manager = LLMManager()
+    llm = llm_manager.load_model()
+    llm_with_tools = llm.bind_tools(tools=[word_count_tool])
+    if not state['messages']:
+        prompt = HumanMessage(content=hate_speech_prompt_template.format(message=state['message']))
+        messages = [system_prompt, prompt]
+
+    else:
+        messages = state["messages"]
+    
+    tool_response = llm_with_tools.invoke(input=messages)
+    # state['messages'] = tool_response
+    llm_with_structured_output = llm.with_structured_output(HateAgentResponse)
+
+    # response = llm.invoke(input=message)
+    # response = llm_with_structured_output.invoke(messages)
+    # result = response.content
+    # state['hate_speech_agent_response'] = response
+    # result = {'hate_speech_agent_response': response}
+    return {"messages": tool_response}
+
+
 def hate_speech_agent(state: MessageState) -> dict:
     llm_manager = LLMManager()
     llm = llm_manager.load_model()
-    prompt = HumanMessage(content=hate_speech_prompt_template.format(message=state['message']))
-    messages = [system_prompt, prompt]
-    llm_with_tools = llm.bind_tools(tools=[word_count_tool])
-    tool_response = llm_with_tools.invoke(input=messages)
+    messages = state["messages"]
     # state['messages'] = tool_response
     llm_with_structured_output = llm.with_structured_output(HateAgentResponse)
 
@@ -23,7 +43,7 @@ def hate_speech_agent(state: MessageState) -> dict:
     # result = response.content
     # state['hate_speech_agent_response'] = response
     # result = {'hate_speech_agent_response': response}
-    return {'hate_speech_agent_response': response, "messages": tool_response}
+    return {'hate_speech_agent_response': response}
 
 
 
