@@ -6,7 +6,7 @@ from utils.db_connection import DatabaseManager
 def save_moderation_result(state: MessageState) -> dict:
     db_manager = DatabaseManager()
     engine = db_manager.get_engine()
-    
+
     decision = state["final_decision"]
 
     query = text("""
@@ -32,7 +32,8 @@ def save_moderation_result(state: MessageState) -> dict:
 
 
 if __name__ == "__main__":
-    test_state: MessageState = { "messages": "",
+    test_state: MessageState = { "hate_messages":[],
+                                "profanity_messages":[],
                            "message":"You are an Idiot",
                            "hate_speech_agent_response": {},
                            "profanity_agent_response": {},
