@@ -1,5 +1,5 @@
 from fastmcp import FastMCP
-from tools.mcp_tools import word_count_tool, profanity_check_tool
+from server.tools.mcp_tools import word_count_tool, profanity_check_tool
 
 
 mcp = FastMCP(name="moderation_mcp_server",
