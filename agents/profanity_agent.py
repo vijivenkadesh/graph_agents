@@ -7,7 +7,7 @@ from langchain.messages import HumanMessage
 from tools.agent_tools import word_count_tool, profanity_check_tool
 import logging
 
-logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def profanity_agent_with_tools(state: MessageState) -> dict:
@@ -18,7 +18,7 @@ def profanity_agent_with_tools(state: MessageState) -> dict:
         llm_with_tools = llm.bind_tools(tools=[word_count_tool, profanity_check_tool])
 
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
         return {"error": "Failed to load model."}
 
     try:
@@ -29,12 +29,12 @@ def profanity_agent_with_tools(state: MessageState) -> dict:
         else:
             messages = state["profanity_messages"]
     except Exception as e:
-        logging.error(f"Error preparing messages: {e}")
+        logger.error(f"Error preparing messages: {e}")
         return {"error": "Failed to prepare messages."}
     try:
         tool_response = llm_with_tools.invoke(input=messages)
     except Exception as e:
-        logging.error(f"Error invoking LLM: {e}")
+        logger.error(f"Error invoking LLM: {e}")
         return {"error": "Failed to invoke LLM."}
     
     return {"profanity_messages": [tool_response]}
@@ -46,7 +46,7 @@ def profanity_agent(state: MessageState) -> dict:
         llm = llm_manager.load_model()
         llm_with_structured_output = llm.with_structured_output(ProfanityAgentResponse)
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
         return {"error": "Failed to load model."}
 
     messages = state['profanity_messages']
@@ -54,7 +54,7 @@ def profanity_agent(state: MessageState) -> dict:
     try:
         response = llm_with_structured_output.invoke(messages)
     except Exception as e:
-        logging.error(f"Error invoking LLM: {e}")
+        logger.error(f"Error invoking LLM: {e}")
         return {"error": "Failed to invoke LLM."}
 
     return {'profanity_agent_response': response}

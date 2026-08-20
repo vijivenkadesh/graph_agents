@@ -5,7 +5,7 @@ import logging
 from sqlalchemy import text
 from utils.db_connection import DatabaseManager
 
-logging.getLogger(__name__)
+looger = logging.getLogger(__name__)
 
 def _normalize_messsage(message: str) -> str:
 
@@ -13,7 +13,7 @@ def _normalize_messsage(message: str) -> str:
 
 
 def _hash_message(message: str) -> str:
-    logging.info(msg=f"Processing the message: {message}")
+    looger.info(msg=f"Processing the message: {message}")
 
     return hashlib.sha256(_normalize_messsage(message=message).encode(encoding="utf-8")).hexdigest()
 

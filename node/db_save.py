@@ -1,7 +1,7 @@
 from sqlalchemy import text
 from model.message_state import MessageState
-
 from utils.db_connection import DatabaseManager
+from cache.cache_manager import _hash_message
 
 def save_moderation_result(state: MessageState) -> dict:
     db_manager = DatabaseManager()
@@ -11,9 +11,9 @@ def save_moderation_result(state: MessageState) -> dict:
 
     query = text("""
         INSERT INTO moderation_results
-        (message, is_violation, category, confidence, reason)
+        (message, is_violation, category, confidence, reason, message_hash)
         VALUES
-        (:message, :is_violation, :category, :confidence, :reason)
+        (:message, :is_violation, :category, :confidence, :reason, :message_hash)
     """)
 
     with engine.begin() as connection:
@@ -25,6 +25,7 @@ def save_moderation_result(state: MessageState) -> dict:
                 "category": decision["category"],
                 "confidence": decision["confidence"],
                 "reason": decision["reason"],
+                "message_hash": _hash_message(message=state["message"])
             }
         )
 

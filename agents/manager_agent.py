@@ -5,7 +5,7 @@ from schema.agent_response import FinalDecisionResponse
 from prompts.manager_agent_prompt import system_prompt, user_input_template
 import logging
 
-logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def manager_agent(state: MessageState) -> MessageState:
@@ -14,7 +14,7 @@ def manager_agent(state: MessageState) -> MessageState:
         llm = llm_manager.load_model()
         llm_with_structured_output = llm.with_structured_output(FinalDecisionResponse)
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
 
     
     user_prompt = user_input_template.format(message=state['message'],
@@ -26,7 +26,7 @@ def manager_agent(state: MessageState) -> MessageState:
     try:
         response = llm_with_structured_output.invoke(messages)
     except Exception as e:
-        logging.error(f"Error invoking LLM: {e}")
+        logger.error(f"Error invoking LLM: {e}")
         
     state['final_decision'] = response
     return state

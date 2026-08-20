@@ -8,8 +8,11 @@ from model.message_state import MessageState
 from graphs.agent_graph import graph
 from core.config import get_settings
 from dotenv import load_dotenv
-load_dotenv()
 from core.logging_config import setup_logging
+from cache.cache_manager import get_cached_result
+
+
+load_dotenv()
 setup_logging(level="DEBUG")
 
 def main():
@@ -41,15 +44,19 @@ def main():
     # print("*"*100)
     # print(result3)
     message = input("Please enter message to analyze: ")
-    input_state: MessageState = { "hate_messages": [],
-                                 "profanity_messages": [],
-                           "message":message,
-                           "hate_speech_agent_response": {},
-                           "profanity_agent_response": {},
-                           "final_decision": {}}
-    result = graph.invoke(input=input_state)
-    print(result)
+    cache_result = get_cached_result(message=message)
+    if not cache_result:
+        input_state: MessageState = { "hate_messages": [],
+                                    "profanity_messages": [],
+                            "message":message,
+                            "hate_speech_agent_response": {},
+                            "profanity_agent_response": {},
+                            "final_decision": {}}
+        result = graph.invoke(input=input_state)
+        print(result)
+    return cache_result
 
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    print(result)

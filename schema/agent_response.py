@@ -23,3 +23,4 @@ class FinalDecisionResponse(TypedDict):
     category: str
     confidence: int
     reason: str
+    cached: bool

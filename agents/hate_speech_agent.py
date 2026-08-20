@@ -7,7 +7,7 @@ from tools.agent_tools import word_count_tool,  profanity_check_tool
 from typing import Dict
 import logging
 
-logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def hate_speech_agent_with_tools(state: MessageState) -> Dict:
@@ -30,7 +30,7 @@ def hate_speech_agent_with_tools(state: MessageState) -> Dict:
         llm = llm_manager.load_model()
         llm_with_tools = llm.bind_tools(tools=[word_count_tool,  profanity_check_tool])
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
         return {"error": "Failed to load model."}
     try:
         if not state['hate_messages']:
@@ -41,13 +41,13 @@ def hate_speech_agent_with_tools(state: MessageState) -> Dict:
             messages = state["hate_messages"]
             
     except Exception as e:
-        logging.error(f"Error preparing messages: {e}")
+        logger.error(f"Error preparing messages: {e}")
         return {"error": "Failed to prepare messages."}
 
     try:
         tool_response = llm_with_tools.invoke(input=messages)
     except Exception as e:
-        logging.error(f"Error invoking LLM: {e}")
+        logger.error(f"Error invoking LLM: {e}")
         return {"error": "Failed to invoke LLM."}
     
     return {"hate_messages": [tool_response]}
@@ -66,7 +66,7 @@ def hate_speech_agent(state: MessageState) -> Dict:
     try:
         messages = state["hate_messages"]
     except KeyError as e:
-        logging.error(f"Missing 'hate_messages' in state: {e}")
+        logger.error(f"Missing 'hate_messages' in state: {e}")
         return {"error": "Missing 'hate_messages' in state."}
 
     try:
@@ -74,13 +74,13 @@ def hate_speech_agent(state: MessageState) -> Dict:
         llm = llm_manager.load_model()
         llm_with_structured_output = llm.with_structured_output(HateAgentResponse)
     except Exception as e:
-        logging.error(f"Error loading model: {e}")
+        logger.error(f"Error loading model: {e}")
         return {"error": "Failed to load model."}
 
     try:
         response = llm_with_structured_output.invoke(messages)
     except Exception as e:
-        logging.error(f"Error invoking LLM: {e}")
+        logger.error(f"Error invoking LLM: {e}")
         return {"error": "Failed to invoke LLM."}
 
     return {'hate_speech_agent_response': response}
