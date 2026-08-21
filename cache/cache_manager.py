@@ -4,12 +4,13 @@ from typing import Optional
 import logging
 from sqlalchemy import text
 from utils.db_connection import DatabaseManager
+
 from sentence_transformers import SentenceTransformer
 
 looger = logging.getLogger(__name__)
 
 _model = SentenceTransformer(model_name_or_path="all-MiniLM-L6-v2")
-SIMILARITY_THRESHOLD: int = 90
+SIMILARITY_THRESHOLD: float = 0.90
 
 def _normalize_messsage(message: str) -> str:
 
@@ -77,6 +78,10 @@ def get_similar_cached_result(message: str) -> Optional[dict] | None:
         row = connection.execute(statement=query,
                                  parameters={"embedding": embeddings}).fetchone()
 
+    looger.info(msg=f"Similarity result for the message: {message} is {row.similarity if row else 'No match found'}")
+    print(f"Similarity result for the message: {message} is {row.similarity if row else 'No match found'}")
+    
+
     if row is None or row.similarity < SIMILARITY_THRESHOLD:
         return None
 
@@ -100,3 +105,10 @@ def get_cached_result(message: str) -> dict:
     similarity_cache_result = get_similar_cached_result(message=message)
 
     return similarity_cache_result
+
+
+
+if __name__ == "__main__":
+    test_message = "screw you, you bastard"
+    result = get_similar_cached_result(message=test_message)
+    print(result)
