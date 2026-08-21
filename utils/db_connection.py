@@ -14,7 +14,8 @@ class DatabaseManager:
 
         encoded_pass_code = quote_plus(string=passcode)
 
-        DATABASE_URL = (f"mysql+pymysql://root:{encoded_pass_code}@localhost:3306/moderation_db")
+        # DATABASE_URL = (f"mysql+pymysql://root:{encoded_pass_code}@localhost:3306/moderation_db")
+        DATABASE_URL = (f"postgresql+psycopg2://postgres:{encoded_pass_code}@localhost:5432/moderation_db")
 
         engine = create_engine(url=DATABASE_URL)
 
