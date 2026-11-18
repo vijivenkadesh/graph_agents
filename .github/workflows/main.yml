@@ -9,4 +9,4 @@ jobs:
 
     steps:
       - name: testing_the_github_actions
-      - run: echo "Hey Viji!"
+        run: echo "Hey Viji!"
