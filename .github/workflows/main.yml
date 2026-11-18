@@ -1,0 +1,12 @@
+name: graph_agents_deployment
+on: push
+
+
+jobs:
+  job1:
+    name: JOB1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: testing_the_github_actions
+      - run: echo "Hey Viji!"
